@@ -188,6 +188,9 @@ function calc(){
           lab=(k=='sea'?'май–сентябрь':k=='dec'?'25–31 декабря':pp=='dec'?'01–24 декабря':'межсезонье')+', '+['вс–чт','пт','сб'][dcls(dt)];
           if(holNight(dt)&&BIG.hol[b]>p){p=BIG.hol[b];lab='праздник'} if(holNight(dt))anyHol=true}
         lab+=b?', без нашего банкета':', с нашим банкетом';rent+=p;L.push([`${fmt(dt)} (${DN[dt.getDay()]}) — ${lab}`,p])});
+      if($('wed').checked){const sm=nights.slice(0,2).every(dt=>per(dt)=='sea'&&!isNY(dt));
+        if(n>=2&&sm&&!b){const two=L.slice(-n).slice(0,2).reduce((a,x)=>a+x[1],0),d=two-1800;if(d>0){rent-=d;L.push(['Свадьба: 2 дня по цене 1 800 руб.',-d])}}
+        else W.push(b?'Свадебная цена 1 800 — при банкете с нашей кухни; посчитано по обычным ценам.':n<2?'Свадебная цена 1 800 — за 2 дня: поставьте 2 суток.':'Свадебная цена 1 800 — только для мая–сентября; посчитано по обычным ценам.')}
       if(b&&guests>26){const x=(Math.min(guests,50)-26)*10*n;extra+=x;L.push([`Гости сверх 26 без нашего банкета: ${Math.min(guests,50)-26} × 10 × ${n}`,x])}
       if(nights.some(isNY)&&n<2)W.push('На Новый год — минимум 2 ночи.');
       dep=($('wed').checked||guests>26)?500:300;

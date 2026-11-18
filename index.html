@@ -216,7 +216,7 @@ function calc(){
     if(n>=2&&nights.every(dt=>!dcls(dt)&&!holNight(dt))){const dsc=Math.round(rent*.15);rent-=dsc;L.push(['Будни от 2 ночей: скидка 15 %',-dsc])}
     if(guests>11){const a=Math.min(guests,20)-11,b2=Math.max(0,Math.min(guests,25)-20),x=(a*10+b2*15)*n;extra+=x;L.push([`Гости сверх 11: ${a} × 10${b2?` + ${b2} × 15`:''}${n>1?` × ${n}`:''}`,x])}
     if(bath>0){let x=150+Math.max(0,bath-3)*50;L.push([`Баня на дровах: ${bath} ч (150 за первые 3 ч, далее 50/ч)`,x]);
-      if(nights.some(dt=>dt.getDay()==6&&!holNight(dt)&&!isNY(dt))){x-=50;L.push(['Пакет «дом + баня» в субботу',-50])}extra+=x}
+      const sat=ps.find(o=>o.dt.getDay()==6&&!holNight(o.dt)&&!isNY(o.dt));if(sat){const pk={off:750,sea:800,dec:750}[per(sat.dt)],dsc=sat.p+150-pk;if(dsc>0){x-=dsc;L.push([`Пакет «дом + баня» в субботу (${pk} руб.)`,-dsc])}}extra+=x}
     if(ex){const x=ex*20;extra+=x;L.push([`Ранний заезд / поздний выезд: ${ex} ч × 20`,x])}
     dep=guests<=20?200:300;preP=(anyHol||nights.some(isNY))?.5:.3;
     cond=['заезд с 15:00, выезд до 12:00','в доме 11 спальных мест, санузел общий','баня на дровах: 150 руб. за первые 3 часа, далее 50 руб./час'];
